@@ -397,7 +397,9 @@ const SurveyForm = () => {
                                         if (e.target.value) setErrorFields(prev => prev.filter(f => f !== 'q12'));
                                     }}
                                     onFocus={() => setFocused12(true)}
-                                    onBlur={() => setFocused12(false)} /></FormControl>
+                                    onBlur={() => setFocused12(false)}
+                                    error={errorFields.includes('q12')}
+                                /></FormControl>
                             <FormControl component="fieldset" margin="normal" error={errorFields.includes('q13')}>
                                 <FormLabel>13. 音楽ジャンル</FormLabel>
                                 <FormGroup row>
@@ -445,7 +447,9 @@ const SurveyForm = () => {
                                         if (e.target.value) setErrorFields(prev => prev.filter(f => f !== 'q15'));
                                     }}
                                     onFocus={() => setFocused15(true)}
-                                    onBlur={() => setFocused15(false)} />
+                                    onBlur={() => setFocused15(false)}
+                                    error={errorFields.includes('q15')}
+                                />
                             </FormControl>
                             <FormControl fullWidth margin="normal" error={errorFields.includes('q16')}>
                                 <FormLabel
@@ -462,7 +466,9 @@ const SurveyForm = () => {
                                         if (e.target.value) setErrorFields(prev => prev.filter(f => f !== 'q16'));
                                     }}
                                     onFocus={() => setFocused16(true)}
-                                    onBlur={() => setFocused16(false)} />
+                                    onBlur={() => setFocused16(false)} 
+                                    error={errorFields.includes('q16')}
+                                    />
                             </FormControl>
                             <FormControl component="fieldset" margin="normal" error={errorFields.includes('q17')}>
                                 <FormLabel>17. 困ったときの相談相手</FormLabel>
@@ -592,7 +598,6 @@ const SurveyForm = () => {
             </Dialog>
             <Dialog open={thankYouDialogOpen} onClose={() => setThankYouDialogOpen(false)}>
                 <DialogTitle>実験へのご協力、ありがとうございました。</DialogTitle>
-
                 <DialogContent>
                     <Typography>
                         <Link
@@ -602,12 +607,9 @@ const SurveyForm = () => {
                         >
                             こちら
                         </Link>
-                            よりアンケートへお答えください。
+                        よりアンケートへお答えください。
                     </Typography>
                 </DialogContent>
-                {/* <DialogActions>
-                    <Button onClick={() => setThankYouDialogOpen(false)}>閉じる</Button>
-                </DialogActions> */}
             </Dialog>
         </Box>
     );
