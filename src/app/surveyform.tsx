@@ -16,6 +16,7 @@ import {
     FormGroup,
     FormLabel,
     InputLabel,
+    Link,
     MenuItem,
     Radio,
     RadioGroup,
@@ -225,7 +226,6 @@ const SurveyForm = () => {
                                     onFocus={() => setFocused1(true)}
                                     onBlur={() => setFocused1(false)}
                                     error={errorFields.includes('q1')}
-                                    helperText={errorFields.includes('q1') ? "全角数字で入力してください" : ""}
                                 />
                             </FormControl>
                             <FormControl component="fieldset" margin="normal" error={errorFields.includes('q2')}>
@@ -556,21 +556,58 @@ const SurveyForm = () => {
                 </CardContent>
             </Card>
             <Dialog open={openDialog} onClose={handleDialogClose}>
-                <DialogTitle>入力エラーがあります</DialogTitle>
+                <DialogTitle>エラーが発生しました</DialogTitle>
                 <DialogContent>
-                    {errors.map((e, i) => <Typography key={i} color="error">{e}</Typography>)}
+                    <Box display="flex" flexWrap="wrap" gap={2}>
+                        {errors
+                            .slice()
+                            .sort((a, b) => {
+                                const numA = parseInt(a.match(/^(\d+)\./)?.[1] || '0', 10);
+                                const numB = parseInt(b.match(/^(\d+)\./)?.[1] || '0', 10);
+                                return numA - numB;
+                            })
+                            .map((msg, i) => {
+                                const numMatch = msg.match(/^(\d+)\./);
+                                const num = numMatch ? numMatch[1] : '??';
+                                const isForced = msg.includes('強制エラー');
+
+                                return (
+                                    <Typography
+                                        key={i}
+                                        sx={{
+                                            color: isForced ? 'error.main' : 'orange',
+                                            fontWeight: 'bold',
+                                            fontSize: '1.2rem',
+                                        }}
+                                    >
+                                        {num}
+                                    </Typography>
+                                );
+                            })}
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleDialogClose}>閉じる</Button>
                 </DialogActions>
             </Dialog>
             <Dialog open={thankYouDialogOpen} onClose={() => setThankYouDialogOpen(false)}>
+                <DialogTitle>実験へのご協力、ありがとうございました。</DialogTitle>
+
                 <DialogContent>
-                    <Typography>実験へのご協力、ありがとうございました。</Typography>
+                    <Typography>
+                        <Link
+                            href="https://www.keithv.com/software/nasatlx/nasatlx-ja.html"
+                            underline="hover"
+                            sx={{ ml: 1 }}
+                        >
+                            こちら
+                        </Link>
+                            よりアンケートへお答えください。
+                    </Typography>
                 </DialogContent>
-                <DialogActions>
+                {/* <DialogActions>
                     <Button onClick={() => setThankYouDialogOpen(false)}>閉じる</Button>
-                </DialogActions>
+                </DialogActions> */}
             </Dialog>
         </Box>
     );
